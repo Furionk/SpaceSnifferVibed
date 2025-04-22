@@ -1,0 +1,39 @@
+﻿make a basic mvvm base for MainWindow
+
+
+I can select a root folder to scan the size of all subfolders
+
+fix the error
+
+I can display the folder size in a heat map view like a well known software space sniffer
+
+I can see the size of scanned folders reflected in HeatMapCanvas
+
+in the heatmap view, should display the folder path like well known software spacesniffer
+
+I can see the folder size in the heatmap
+
+in the heatmap ui, parent folder rectangle should contains subfolders
+
+should have no padding and clearly delcare to use System.Windows.Shapes.Rectangle
+
+the heatmap should make use of entire canvas not just horizontal
+
+the heatmap should fill the window empty space
+
+the HeatMapCanvas should follow window size, even the window resized
+
+only show the folder name not entire path in heatmap
+
+when resizing the window, the rectangles in heatmap also need to resize accordingly to make use of the canvas
+
+i can double click the rectangles to open the folder accordingly
+
+the SubfolderSizes listview should show all scanned folders not just single level
+
+
+the listview should render only needed element to save performance
+
+clicking the entire rectangle area can also open the folder
+
+should make hover effect when hover on a rectangle

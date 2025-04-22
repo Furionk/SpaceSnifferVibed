@@ -26,7 +26,9 @@ public class HeatMapGenerator
         Canvas.SetTop(rect, y);
         canvas.Children.Add(rect);
 
-        // Attach a double-click event to the rectangle
+        // Attach mouse events for hover effect
+        rect.MouseEnter += Rectangle_MouseEnter;
+        rect.MouseLeave += Rectangle_MouseLeave;
         rect.MouseLeftButtonDown += Rectangle_MouseLeftButtonDown;
 
         // Extract only the folder name
@@ -92,20 +94,40 @@ public class HeatMapGenerator
         }
     }
 
-    private static void Rectangle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+
+    private static void Rectangle_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
     {
-        if (e.ClickCount == 2) // Check for double-click
+        var rect = sender as System.Windows.Shapes.Rectangle;
+        if (rect != null)
         {
-            var rect = sender as System.Windows.Shapes.Rectangle;
-            if (rect?.Tag is string folderPath && Directory.Exists(folderPath))
+            // Change the rectangle's appearance on hover
+            rect.Fill = new SolidColorBrush(Colors.LightGreen);
+            rect.Stroke = new SolidColorBrush(Colors.DarkGreen);
+        }
+    }
+
+    private static void Rectangle_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+    {
+        var rect = sender as System.Windows.Shapes.Rectangle;
+        if (rect != null)
+        {
+            // Revert the rectangle's appearance when the mouse leaves
+            rect.Fill = new SolidColorBrush(Colors.LightBlue);
+            rect.Stroke = new SolidColorBrush(Colors.Black);
+        }
+    }
+
+    private static void Rectangle_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        var rect = sender as System.Windows.Shapes.Rectangle;
+        if (rect?.Tag is string folderPath && Directory.Exists(folderPath))
+        {
+            // Open the folder in File Explorer
+            Process.Start(new ProcessStartInfo
             {
-                // Open the folder in File Explorer
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = folderPath,
-                    UseShellExecute = true
-                });
-            }
+                FileName = folderPath,
+                UseShellExecute = true
+            });
         }
     }
 
