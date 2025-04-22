@@ -29,6 +29,21 @@ namespace SpaceSnifferX
 
         public ObservableCollection<FolderData> SubfolderSizes { get; } = new();
 
+        private IEnumerable<FolderData> FlattenFolderHierarchy(FolderData folder)
+        {
+            // Add the current folder
+            yield return folder;
+
+            // Recursively add all subfolders
+            foreach (var subFolder in folder.SubFolders)
+            {
+                foreach (var child in FlattenFolderHierarchy(subFolder))
+                {
+                    yield return child;
+                }
+            }
+        }
+
 
         public ICommand SelectFolderCommand { get; }
         public ICommand ScanFolderCommand { get; }
@@ -54,6 +69,7 @@ namespace SpaceSnifferX
         {
             if (string.IsNullOrEmpty(SelectedFolder)) return;
 
+            // Scan the root folder and its subfolders
             RootFolderData = new FolderData
             {
                 Name = SelectedFolder,
@@ -61,10 +77,11 @@ namespace SpaceSnifferX
                 SubFolders = GetSubFolders(SelectedFolder)
             };
 
+            // Clear and populate the SubfolderSizes collection with all folders
             SubfolderSizes.Clear();
-            foreach (var subFolder in RootFolderData.SubFolders)
+            foreach (var folder in FlattenFolderHierarchy(RootFolderData))
             {
-                SubfolderSizes.Add(subFolder);
+                SubfolderSizes.Add(folder);
             }
 
             // Notify the view to update the heat map

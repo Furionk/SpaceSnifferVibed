@@ -27,7 +27,15 @@
         <Canvas x:Name="HeatMapCanvas" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Red" SizeChanged="HeatMapCanvas_SizeChanged"/>
         
         <!-- all scanned folders -->
-        <ListView ItemsSource="{Binding SubfolderSizes}" Margin="0,10,0,0"  Grid.RowSpan="5" Grid.Column="1">
+        <ListView ItemsSource="{Binding SubfolderSizes}" Margin="0,10,0,0" Grid.RowSpan="5" Grid.Column="1"
+          VirtualizingStackPanel.IsVirtualizing="True"
+          VirtualizingStackPanel.VirtualizationMode="Recycling"
+          ScrollViewer.CanContentScroll="True">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Folder Path" DisplayMemberBinding="{Binding Name}" Width="150"/>
