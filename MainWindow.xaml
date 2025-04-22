@@ -1,0 +1,39 @@
+﻿<Window x:Class="SpaceSnifferX.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SpaceSnifferX"
+        mc:Ignorable="d"
+        Title="MainWindow" Width="1024" Height="768">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="256"/>
+        </Grid.ColumnDefinitions>
+        <!--<TextBlock Text="Select a folder to scan:" FontSize="16" Margin="0,0,0,10" Grid.Row="0"/>-->
+        <TextBox Text="{Binding SelectedFolder}" IsReadOnly="True" Margin="0,0,0,10" Grid.Row="2"/>
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,10" Grid.Row="0">
+            <Button Content="Select Folder" Command="{Binding SelectFolderCommand}" Width="120" Margin="0,0,10,0"/>
+            <Button Content="Scan Folder" Command="{Binding ScanFolderCommand}" Width="120"/>
+        </StackPanel>
+        <Canvas x:Name="HeatMapCanvas" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Red" SizeChanged="HeatMapCanvas_SizeChanged"/>
+        
+        <!-- all scanned folders -->
+        <ListView ItemsSource="{Binding SubfolderSizes}" Margin="0,10,0,0"  Grid.RowSpan="5" Grid.Column="1">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Folder Path" DisplayMemberBinding="{Binding Name}" Width="150"/>
+                    <GridViewColumn Header="Size (Bytes)" DisplayMemberBinding="{Binding Size}" Width="100"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</Window>
